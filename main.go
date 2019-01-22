@@ -11,4 +11,8 @@ func main() {
 	start := time.Now()
 	fmt.Println(numbers.FibonacciSlow(42))
 	fmt.Println(time.Since(start))
+
+	start = time.Now()
+	fmt.Println(numbers.FibonacciFast(42))
+	fmt.Println(time.Since(start))
 }
