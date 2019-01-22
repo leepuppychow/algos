@@ -1,6 +1,7 @@
 package arrays
 
 func MaxPairProduct(arr []int) int {
+	// O(n) approach
 	maxIndex1 := 0
 	maxIndex2 := 0
 	for i, _ := range arr {
