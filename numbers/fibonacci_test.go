@@ -20,16 +20,16 @@ func TestFibonacciSlow(t *testing.T) {
 }
 
 func TestFibonacciFast(t *testing.T) {
-	if FibonacciFast(0) != 0 {
+	if <-FibonacciFast(0) != 0 {
 		t.Errorf("Fibonacci slow failed")
 	}
-	if FibonacciFast(1) != 1 {
+	if <-FibonacciFast(1) != 1 {
 		t.Errorf("Fibonacci slow failed")
 	}
-	if FibonacciFast(3) != 2 {
+	if <-FibonacciFast(3) != 2 {
 		t.Errorf("Fibonacci slow failed")
 	}
-	if FibonacciFast(12) != 144 {
+	if <-FibonacciFast(12) != 144 {
 		t.Errorf("Fibonacci slow failed")
 	}
 }
