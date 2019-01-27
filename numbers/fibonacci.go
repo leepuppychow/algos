@@ -16,8 +16,7 @@ func FibonacciFast(n int) int {
 }
 
 // Example using channel generator function pattern
-/*
-func FibonacciFast(n int) <-chan int {
+func FibonacciFast2(n int) <-chan int {
 	ch := make(chan int)
 	go func() {
 		fibList := []int{0, 1}
@@ -28,4 +27,3 @@ func FibonacciFast(n int) <-chan int {
 	}()
 	return ch
 }
-*/

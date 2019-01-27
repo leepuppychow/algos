@@ -12,3 +12,18 @@ func TestGCDEuclideanAlgo(t *testing.T) {
 		t.Errorf("GCD failed")
 	}
 }
+
+func TestLargestDivisor(t *testing.T) {
+	if <-LargestDivisor(10) != 5 {
+		t.Errorf("Largest Divisor failed")
+	}
+	if <-LargestDivisor(1233) != 411 {
+		t.Errorf("Largest Divisor failed")
+	}
+	if <-LargestDivisor(3) != 3 {
+		t.Errorf("Largest Divisor failed")
+	}
+	if <-LargestDivisor(12345) != 4115 {
+		t.Errorf("Largest Divisor failed")
+	}
+}
