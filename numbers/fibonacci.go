@@ -8,6 +8,7 @@ func FibonacciSlow(n int) int {
 }
 
 func FibonacciFast(n int) int {
+	// NOTE: should use big int type
 	fibList := []int{0, 1}
 	for i := 2; i <= n; i++ {
 		fibList = append(fibList, fibList[i-1]+fibList[i-2])
@@ -16,8 +17,7 @@ func FibonacciFast(n int) int {
 }
 
 // Example using channel generator function pattern
-/*
-func FibonacciFast(n int) <-chan int {
+func FibonacciFast2(n int) <-chan int {
 	ch := make(chan int)
 	go func() {
 		fibList := []int{0, 1}
@@ -28,4 +28,3 @@ func FibonacciFast(n int) <-chan int {
 	}()
 	return ch
 }
-*/
