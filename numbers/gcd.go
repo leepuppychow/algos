@@ -5,6 +5,7 @@ package numbers
 import (
 	"fmt"
 	"math"
+	"time"
 )
 
 func GCD(a, b int) int {
@@ -16,7 +17,9 @@ func GCD(a, b int) int {
 	return GCD(b, a%b)
 }
 
-func LargestDivisor(a int) <-chan int {
+func LargestDivisor(a int, ms time.Duration) <-chan int {
+	time.Sleep(ms * time.Millisecond) // optional delay for the concurrency example
+
 	ch := make(chan int)
 	go func() {
 		for i := 2; i <= int(math.Sqrt(float64(a))); i++ {

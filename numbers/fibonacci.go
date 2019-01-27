@@ -8,6 +8,7 @@ func FibonacciSlow(n int) int {
 }
 
 func FibonacciFast(n int) int {
+	// NOTE: should use big int type
 	fibList := []int{0, 1}
 	for i := 2; i <= n; i++ {
 		fibList = append(fibList, fibList[i-1]+fibList[i-2])
