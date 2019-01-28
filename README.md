@@ -1,1 +1,1 @@
-### Learning Repo to accompany Data Structures & Algorithms course
+### Learning Repo on Data Structures, Algorithms, and random Go topics mixed in.
