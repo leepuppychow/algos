@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/leepuppychow/algos/dynamic_programming"
+	"github.com/leepuppychow/algos/greedy"
 )
 
 func timeTestTwoVars(fn func(a, b int) int, a, b int) {
@@ -31,5 +31,11 @@ func main() {
 	// maxValue := greedy.FractionalKnapsack(greedy.Knapsack, 50)
 	// fmt.Println(maxValue)
 
-	timeTestOneVar(dp.UglyNumber, 500)
+	// timeTestOneVar(dp.UglyNumber, 500)
+	// numActivities, activities := greedy.ActivitySelection(greedy.Activities)
+	// fmt.Printf("Max number of activities = %d\n", numActivities)
+	// fmt.Println(activities)
+
+	_, results := greedy.EgyptianFraction(greedy.Fraction3, []greedy.Fraction{})
+	fmt.Println(results)
 }
