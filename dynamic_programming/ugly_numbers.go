@@ -42,7 +42,7 @@ func UglyNumber(n int) int {
 				hamHash[num] = true
 			}
 		}
-		num++
+		num++ // THIS WILL BLOW UP EXPONENTIALLY...
 		fmt.Println(num)
 	}
 	// fmt.Println(hams)
