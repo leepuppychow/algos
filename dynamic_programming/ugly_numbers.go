@@ -17,7 +17,7 @@ package dp
 import "fmt"
 
 func UglyNumber(n int) int {
-	// hams := []int{1, 2, 3, 4, 5}
+	var mostRecentNum int
 	hamHash := map[int]bool{
 		1: true,
 		2: true,
@@ -32,19 +32,21 @@ func UglyNumber(n int) int {
 		if num%2 == 0 {
 			if _, ok2 = hamHash[num/2]; ok2 {
 				hamHash[num] = true
+				mostRecentNum = num
 			}
 		} else if num%3 == 0 {
 			if _, ok3 = hamHash[num/3]; ok3 {
 				hamHash[num] = true
+				mostRecentNum = num
 			}
 		} else if num%5 == 0 {
 			if _, ok5 = hamHash[num/5]; ok5 {
 				hamHash[num] = true
+				mostRecentNum = num
 			}
 		}
 		num++ // THIS WILL BLOW UP EXPONENTIALLY...
-		fmt.Println(num)
 	}
-	// fmt.Println(hams)
-	return num - 1
+	fmt.Println(mostRecentNum)
+	return mostRecentNum
 }
