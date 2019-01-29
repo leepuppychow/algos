@@ -32,7 +32,10 @@ func main() {
 	// fmt.Println(maxValue)
 
 	// timeTestOneVar(dp.UglyNumber, 500)
-	numActivities, activities := greedy.ActivitySelection(greedy.Activities)
-	fmt.Printf("Max number of activities = %d\n", numActivities)
-	fmt.Println(activities)
+	// numActivities, activities := greedy.ActivitySelection(greedy.Activities)
+	// fmt.Printf("Max number of activities = %d\n", numActivities)
+	// fmt.Println(activities)
+
+	_, results := greedy.EgyptianFraction(greedy.Fraction3, []greedy.Fraction{})
+	fmt.Println(results)
 }
