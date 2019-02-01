@@ -1,3 +1,5 @@
+package dp
+
 // https://www.geeksforgeeks.org/ugly-numbers/
 
 // Ugly (or Hamming) number is one that only has 2,3, or 5 as its prime factors
@@ -14,12 +16,6 @@
 // --> Generally need to decide what state to store. This state is like an ID for each subproblem.
 // --> Then try to find the relationship between these states.
 // --> Store this state via tabulation (bottom-up) vs memoization (top-down)
-
-package dp
-
-import (
-	"fmt"
-)
 
 // Better algorithm (dynamic programming approach)
 // Key idea: why not split the sequence into 3 subsets (multiples of 2,3,5 * values of ugly num series)
@@ -126,6 +122,5 @@ func SlowUglyNumber(n int) int {
 		}
 		num++ // THIS WILL BLOW UP EXPONENTIALLY...
 	}
-	fmt.Println(mostRecentNum)
 	return mostRecentNum
 }
