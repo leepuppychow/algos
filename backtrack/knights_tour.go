@@ -4,81 +4,109 @@
 // Can you visit every square on that "chess" board with a Knight's movements
 // You can only visit a square once!
 
-// Sample output:
-
-// (True, [[0,0], [1,2], [3,3] ... ])
+// 8x8 board can be covered starting at 0,0
+// 5x5 board can be covered starting at 2,2
 
 /* Algorithm:
 
 ~ Break recursion if len(Moves) == n*n (Covered whole board)
 ~ Break recursion if len(Moves) == 1 (Failed to cover board)
 
-1. initialize the Moves array with start position input
+1. Initialize matrix for the board with F for all squares (not visited)
 2. Get array of all possible Moves from there (8)
 		--> x +/- 1 or x +/- 2
 		--> y +/- 1 or y +/- 2
-3. Iterate through array of possibilties
-
-	--> if x or y is negative (out of bounds) or coord already in Moves try next
-	--> else push into Moves and call KnightFn(Moves)
-
-4. If there are no possible moves, call KnightFn(Moves.pop(lastMove))
+3. Exclude non-possibilities
+		A. if x or y is negative (out of bounds)
+		B. coord already in Moves try next)
+4. Iterate through array of possibilties, push into Moves and call KnightFn(Moves)
+5. If there are no possible moves, call KnightFn(Moves.pop(lastMove))
 
 */
 
 package backtrack
 
-import "fmt"
+import (
+	"bufio"
+	"fmt"
+	"os"
+)
 
-func KnightsTour(n int, moves [][]int) (int, [][]int) {
-	if len(moves) == n*n || len(moves) == 0 {
-		return n, moves
+func RunKnightsTour(n, startX, startY int) ([][]int, [][]bool) {
+	board := [][]bool{}
+	for i := 0; i < n; i++ {
+		row := make([]bool, n)
+		board = append(board, row)
 	}
-	currentMove := moves[len(moves)-1]
-	possibilities := GetPossibleMoves(n, currentMove)
-	for _, p := range possibilities {
-		// Now just check if move already includes move
-		// if p[0] < 0 || p[0] > maxSize || p[1] < 0 || p[1] > maxSize {
-		// 	continue
-		// } else {
-		// 	moves = append(moves, p)
-		// 	return KnightsTour(n, moves)
-		// }
-		fmt.Println(p)
-	}
-	return KnightsTour(n, moves[:len(moves)-1])
+	board[startX][startY] = true
+	firstPosition := []int{startX, startY}
+	movesTaken := [][]int{firstPosition}
+
+	_, movesTaken, finalBoard := KnightsTour(n, movesTaken, board)
+	return movesTaken, finalBoard
 }
 
-func GetPossibleMoves(size int, move []int) [][]int {
-	possibles := [][]int{}
-	x := move[0]
-	y := move[1]
-	// Could refactor into two for loops (-2 to 2)
-	// then have if statement in inner loop
-	if x+1 < size && y+2 < size {
-		possibles = append(possibles, []int{x + 1, y + 2})
+func GeneratePossibleMoves(position []int, board [][]bool) [][]int {
+	n := len(board)
+	x := position[0]
+	y := position[1]
+	moveOptions := [][]int{}
+
+	if x+1 < n && y+2 < n && !board[x+1][y+2] {
+		moveOptions = append(moveOptions, []int{x + 1, y + 2})
 	}
-	if x+2 < size && y+1 < size {
-		possibles = append(possibles, []int{x + 2, y + 1})
+	if x+2 < n && y+1 < n && !board[x+2][y+1] {
+		moveOptions = append(moveOptions, []int{x + 2, y + 1})
 	}
-	if x+2 < size && y-1 >= 0 {
-		possibles = append(possibles, []int{x + 2, y - 1})
+	if x+2 < n && y-1 >= 0 && !board[x+2][y-1] {
+		moveOptions = append(moveOptions, []int{x + 2, y - 1})
 	}
-	if x+1 < size && y-2 >= 0 {
-		possibles = append(possibles, []int{x + 1, y - 2})
+	if x+1 < n && y-2 >= 0 && !board[x+1][y-2] {
+		moveOptions = append(moveOptions, []int{x + 1, y - 2})
 	}
-	if x-1 >= 0 && y-2 >= 0 {
-		possibles = append(possibles, []int{x - 1, y - 2})
+	if x-1 >= 0 && y-2 >= 0 && !board[x-1][y-2] {
+		moveOptions = append(moveOptions, []int{x - 1, y - 2})
 	}
-	if x-2 >= 0 && y-1 >= 0 {
-		possibles = append(possibles, []int{x - 2, y - 1})
+	if x-2 >= 0 && y-1 >= 0 && !board[x-2][y-1] {
+		moveOptions = append(moveOptions, []int{x - 2, y - 1})
 	}
-	if x-2 >= 0 && y+1 < size {
-		possibles = append(possibles, []int{x - 2, y + 1})
+	if x-2 >= 0 && y+1 < n && !board[x-2][y+1] {
+		moveOptions = append(moveOptions, []int{x - 2, y + 1})
 	}
-	if x-1 >= 0 && y+2 < size {
-		possibles = append(possibles, []int{x - 1, y + 2})
+	if x-1 >= 0 && y+2 < n && !board[x-1][y+2] {
+		moveOptions = append(moveOptions, []int{x - 1, y + 2})
+	}
+	return moveOptions
+}
+
+func KnightsTour(n int, movesTaken [][]int, board [][]bool) (int, [][]int, [][]bool) {
+	if len(movesTaken) == n*n {
+		fmt.Println("********* SOLUTION FOUND **********")
+		return n, movesTaken, board
+	}
+	if len(movesTaken) == 0 {
+		fmt.Println("********* NO SOLUTION FOUND **********")
+		return n, movesTaken, board
 	}
 
-	return possibles
+	currentPosition := movesTaken[len(movesTaken)-1]
+	x := currentPosition[0]
+	y := currentPosition[1]
+	possibleMoves := GeneratePossibleMoves(currentPosition, board)
+
+	bufio.NewReader(os.Stdin).ReadBytes('\n')
+	fmt.Println("movesTaken", movesTaken)
+	fmt.Println("possibleMoves", possibleMoves)
+
+	if len(possibleMoves) == 0 { // backtrack
+		board[x][y] = false
+		return KnightsTour(n, movesTaken[:len(movesTaken)-1], board)
+	} else {
+		nextPosition := possibleMoves[0]
+		x = nextPosition[0]
+		y = nextPosition[1]
+		board[x][y] = true
+		movesTaken = append(movesTaken, nextPosition)
+		return KnightsTour(n, movesTaken, board)
+	}
 }

@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"time"
+
+	"github.com/leepuppychow/algos/backtrack"
 )
 
 func timeTestTwoVars(fn func(a, b int) int, a, b int) {
@@ -18,4 +20,5 @@ func timeTestOneVar(fn func(a int) int, a int) {
 }
 
 func main() {
+	backtrack.RunKnightsTour(3, 0, 0)
 }
