@@ -53,61 +53,63 @@ import (
 */
 
 type Node struct {
-	Left  *Node // note for a recursive value like this, you need to use a pointer
-	Right *Node
-	Val   int
-	Sum   int
-	Depth int
+	Left   *Node // note for a recursive value like this, you need to use a pointer
+	Right  *Node
+	Parent *Node
+	Val    int
+	Sum    int
+	Path   string
+	IndexL int
+	IndexR int
 }
 
 var root = Node{
-	Left:  nil,
-	Right: nil,
-	Val:   0,
-	Sum:   0,
-	Depth: 0,
+	Left:   nil,
+	Right:  nil,
+	Parent: nil,
+	Val:    0,
+	Sum:    0,
+	Path:   "",
+	IndexL: 0,
+	IndexR: 0,
 }
 
 func SolveTwoStacks(maxSum int, leftStack, rightStack []int) int {
-	path := ""
-	path, _, _, _, _, _, _ = DecisionTree(path, maxSum, leftStack, rightStack, 0, 0, &root)
-	fmt.Println(path)
-	return len(path)
+	DecisionTree(maxSum, leftStack, rightStack, &root)
+	return len("hello")
 }
 
-func DecisionTree(path string, maxSum int, leftStack, rightStack []int, indexL, indexR int, current *Node) (string, int, []int, []int, int, int, *Node) {
+func DecisionTree(maxSum int, leftStack, rightStack []int, current *Node) (int, []int, []int, *Node) {
 
 	fmt.Println(current)
-	fmt.Println("INDEX R", indexR)
-	fmt.Println("INDEX L", indexL)
 	bufio.NewReader(os.Stdin).ReadBytes('\n')
 
-	if current.Left == nil && indexL < len(leftStack) && current.Sum+leftStack[indexL] <= maxSum {
+	if current.Left == nil && current.IndexL < len(leftStack) && current.Sum+leftStack[current.IndexL] <= maxSum {
 		current.Left = &Node{
-			Left:  nil,
-			Right: nil,
-			Val:   leftStack[indexL],
-			Sum:   current.Sum + leftStack[indexL],
-			Depth: current.Depth + 1,
+			Left:   nil,
+			Right:  nil,
+			Parent: current,
+			Val:    leftStack[current.IndexL],
+			Sum:    current.Sum + leftStack[current.IndexL],
+			Path:   current.Path + strconv.Itoa(leftStack[current.IndexL]),
+			IndexL: current.IndexL + 1,
+			IndexR: current.IndexR,
 		}
-		path += strconv.Itoa(leftStack[indexL])
-		indexL++
-		return DecisionTree(path, maxSum, leftStack, rightStack, indexL, indexR, current.Left)
+		return DecisionTree(maxSum, leftStack, rightStack, current.Left)
 	}
-	if current.Right == nil && indexR < len(rightStack) && current.Sum+rightStack[indexR] <= maxSum {
+	if current.Right == nil && current.IndexR < len(rightStack) && current.Sum+rightStack[current.IndexR] <= maxSum {
 		current.Right = &Node{
-			Left:  nil,
-			Right: nil,
-			Val:   rightStack[indexR],
-			Sum:   current.Sum + rightStack[indexR],
-			Depth: current.Depth + 1,
+			Left:   nil,
+			Right:  nil,
+			Parent: current,
+			Val:    rightStack[current.IndexR],
+			Sum:    current.Sum + rightStack[current.IndexR],
+			Path:   current.Path + strconv.Itoa(rightStack[current.IndexR]),
+			IndexR: current.IndexR + 1,
+			IndexL: current.IndexL,
 		}
-		path += strconv.Itoa(rightStack[indexR])
-		indexR++
-		return DecisionTree(path, maxSum, leftStack, rightStack, indexL, indexR, current.Right)
+		return DecisionTree(maxSum, leftStack, rightStack, current.Right)
 	}
 
-	indexL = 0
-	indexR = 0
-	return DecisionTree(path, maxSum, leftStack, rightStack, indexL, indexR, &root)
+	return DecisionTree(maxSum, leftStack, rightStack, current.Parent)
 }
