@@ -25,8 +25,8 @@ func main() {
 	leftStack := []int{4, 2, 4, 6, 1}
 	rightStack := []int{2, 1, 8, 5}
 
-	maxSum = 10
-	leftStack = []int{1, 6, 1, 1, 1}
-	rightStack = []int{2, 1, 7, 4}
+	// maxSum = 10
+	// leftStack = []int{1, 6, 1, 1, 1}
+	// rightStack = []int{2, 1, 7, 4}
 	dp.SolveTwoStacks(maxSum, leftStack, rightStack)
 }

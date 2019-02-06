@@ -63,18 +63,17 @@ type Node struct {
 	IndexR int
 }
 
-var root = Node{
-	Left:   nil,
-	Right:  nil,
-	Parent: nil,
-	Val:    0,
-	Sum:    0,
-	Path:   "",
-	IndexL: 0,
-	IndexR: 0,
-}
-
 func SolveTwoStacks(maxSum int, leftStack, rightStack []int) int {
+	root := Node{
+		Left:   nil,
+		Right:  nil,
+		Parent: nil,
+		Val:    0,
+		Sum:    0,
+		Path:   "",
+		IndexL: 0,
+		IndexR: 0,
+	}
 	DecisionTree(maxSum, leftStack, rightStack, &root)
 	return len("hello")
 }
