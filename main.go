@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/leepuppychow/algos/backtrack"
+	dp "github.com/leepuppychow/algos/dynamic_programming"
 )
 
 func timeTestTwoVars(fn func(a, b int) int, a, b int) {
@@ -20,5 +20,13 @@ func timeTestOneVar(fn func(a int) int, a int) {
 }
 
 func main() {
-	backtrack.RunKnightsTour(3, 0, 0)
+	// backtrack.RunKnightsTour(3, 0, 0)
+	maxSum := 10
+	leftStack := []int{4, 2, 4, 6, 1}
+	rightStack := []int{2, 1, 8, 5}
+
+	maxSum = 10
+	leftStack = []int{1, 6, 1, 1, 1}
+	rightStack = []int{2, 1, 7, 4}
+	dp.SolveTwoStacks(maxSum, leftStack, rightStack)
 }
