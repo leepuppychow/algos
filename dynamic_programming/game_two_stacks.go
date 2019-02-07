@@ -62,34 +62,33 @@ type Node struct {
 	IndexR int
 }
 
-var Root = Node{
-	Left:   nil,
-	Right:  nil,
-	Parent: nil,
-	Val:    0,
-	Sum:    0,
-	Path:   "",
-	IndexL: 0,
-	IndexR: 0,
-}
-var MaxScore = 0
-
 func SolveTwoStacks(maxSum int, leftStack, rightStack []int) int {
-	DecisionTree(maxSum, leftStack, rightStack, &Root)
-	return MaxScore
+	Root := Node{
+		Left:   nil,
+		Right:  nil,
+		Parent: nil,
+		Val:    0,
+		Sum:    0,
+		Path:   "",
+		IndexL: 0,
+		IndexR: 0,
+	}
+	score, _, _, _, _, _ := DecisionTree(0, maxSum, leftStack, rightStack, &Root, &Root)
+	return score
 }
 
-func DecisionTree(maxSum int, leftStack, rightStack []int, current *Node) (int, []int, []int, *Node) {
+func DecisionTree(maxScore, maxSum int, leftStack, rightStack []int, current, root *Node) (int, int, []int, []int, *Node, *Node) {
 	fmt.Println(current)
+	// bufio.NewReader(os.Stdin).ReadBytes('\n')
 
 	currentScore := len(current.Path)
-	if currentScore > MaxScore {
-		MaxScore = currentScore
+	if currentScore > maxScore {
+		maxScore = currentScore
 	}
 
-	if current == &Root && current.Left != nil && current.Right != nil {
+	if current == root && current.Left != nil && current.Right != nil {
 		fmt.Println("DONE")
-		return maxSum, leftStack, rightStack, current
+		return maxScore, maxSum, leftStack, rightStack, current, root
 	}
 
 	if current.Left == nil && current.IndexL < len(leftStack) && current.Sum+leftStack[current.IndexL] <= maxSum {
@@ -103,7 +102,7 @@ func DecisionTree(maxSum int, leftStack, rightStack []int, current *Node) (int, 
 			IndexL: current.IndexL + 1,
 			IndexR: current.IndexR,
 		}
-		return DecisionTree(maxSum, leftStack, rightStack, current.Left)
+		return DecisionTree(maxScore, maxSum, leftStack, rightStack, current.Left, root)
 	}
 	if current.Right == nil && current.IndexR < len(rightStack) && current.Sum+rightStack[current.IndexR] <= maxSum {
 		current.Right = &Node{
@@ -116,8 +115,8 @@ func DecisionTree(maxSum int, leftStack, rightStack []int, current *Node) (int, 
 			IndexR: current.IndexR + 1,
 			IndexL: current.IndexL,
 		}
-		return DecisionTree(maxSum, leftStack, rightStack, current.Right)
+		return DecisionTree(maxScore, maxSum, leftStack, rightStack, current.Right, root)
 	}
 
-	return DecisionTree(maxSum, leftStack, rightStack, current.Parent)
+	return DecisionTree(maxScore, maxSum, leftStack, rightStack, current.Parent, root)
 }
