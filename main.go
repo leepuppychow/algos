@@ -27,6 +27,5 @@ func main() {
 	root.Insert("hello")
 	root.Insert("hall")
 	root.Insert("hear")
-	fmt.Println(root.Children['h'].Children['a'].Children['l'])
-	fmt.Println(root.Children['h'].Children['e'])
+	fmt.Println(root.Search("hell"))
 }
