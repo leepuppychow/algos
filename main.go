@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"time"
+
+	"github.com/leepuppychow/algos/tries"
 )
 
 func timeTestTwoVars(fn func(a, b int) int, a, b int) {
@@ -18,5 +20,13 @@ func timeTestOneVar(fn func(a int) int, a int) {
 }
 
 func main() {
-
+	root := tries.Node{
+		Children: make(map[rune]*tries.Node),
+		IsWord:   false,
+	}
+	root.Insert("hello")
+	root.Insert("hall")
+	root.Insert("hear")
+	fmt.Println(root.Children['h'].Children['a'].Children['l'])
+	fmt.Println(root.Children['h'].Children['e'])
 }
