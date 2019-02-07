@@ -1,10 +1,7 @@
 package tries
 
-import (
-	"bufio"
-	"fmt"
-	"os"
-)
+// bufio.NewReader(os.Stdin).ReadBytes('\n')
+// fmt.Println(word, n)
 
 type Node struct {
 	Children map[rune]*Node
@@ -12,30 +9,21 @@ type Node struct {
 }
 
 func (n *Node) Insert(word string) {
-	// bufio.NewReader(os.Stdin).ReadBytes('\n')
-	// fmt.Println(word, n)
-
 	if len(word) == 0 {
 		n.IsWord = true
 		return
 	}
-
 	letter := rune(word[0])
-	if _, ok := n.Children[letter]; ok {
-		n.Children[letter].Insert(word[1:])
-	} else {
+	if _, ok := n.Children[letter]; !ok {
 		n.Children[letter] = &Node{
 			Children: make(map[rune]*Node),
 			IsWord:   false,
 		}
-		n.Children[letter].Insert(word[1:])
 	}
+	n.Children[letter].Insert(word[1:])
 }
 
 func (n *Node) Search(word string) bool {
-	bufio.NewReader(os.Stdin).ReadBytes('\n')
-	fmt.Println(word, n, len(word))
-
 	if len(word) == 0 && n.IsWord {
 		return true
 	} else if len(word) == 0 && !n.IsWord {
