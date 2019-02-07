@@ -24,8 +24,22 @@ func main() {
 		Children: make(map[rune]*tries.Node),
 		IsWord:   false,
 	}
-	root.Insert("hello")
-	root.Insert("hall")
-	root.Insert("hear")
-	fmt.Println(root.Search("hell"))
+	words := []string{
+		"hello",
+		"hall",
+		"hear",
+		"helmet",
+		"hearing",
+		"hand",
+		"hope",
+		"dog",
+		"dark",
+		"dragon",
+		"dracula",
+		"drag",
+	}
+	for _, w := range words {
+		root.Insert(w)
+	}
+	fmt.Println(root.Suggest("hear"))
 }

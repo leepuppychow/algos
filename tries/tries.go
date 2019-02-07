@@ -1,8 +1,5 @@
 package tries
 
-// bufio.NewReader(os.Stdin).ReadBytes('\n')
-// fmt.Println(word, n)
-
 type Node struct {
 	Children map[rune]*Node
 	IsWord   bool
@@ -38,6 +35,30 @@ func (n *Node) Search(word string) bool {
 	}
 }
 
-// func (n *Node) Suggest(substring string) []string {
+func (n *Node) Suggest(substring string) []string {
+	current := n
+	for _, letter := range substring {
+		current = current.Children[letter]
+	}
+	if current == nil { // in case there are no matches to substring
+		return []string{}
+	}
+	words := []string{}
+	current.FindWords(substring, &words)
+	return words
+}
 
-// }
+func (n *Node) FindWords(currentWord string, words *[]string) {
+	if len(n.Children) == 0 || n.IsWord {
+		*words = append(*words, currentWord)
+	}
+	for letter, child := range n.Children {
+		child.FindWords(currentWord+string(letter), words)
+	}
+}
+
+// bufio.NewReader(os.Stdin).ReadBytes('\n')
+
+func (n *Node) Delete(word string) { // make sure to prune tree as well
+
+}

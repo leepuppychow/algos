@@ -9,9 +9,23 @@ func Setup() Node {
 		Children: make(map[rune]*Node),
 		IsWord:   false,
 	}
-	root.Insert("hello")
-	root.Insert("hall")
-	root.Insert("hear")
+	words := []string{
+		"hello",
+		"hall",
+		"hear",
+		"helmet",
+		"hearing",
+		"hand",
+		"hope",
+		"dog",
+		"dark",
+		"dragon",
+		"dracula",
+		"drag",
+	}
+	for _, w := range words {
+		root.Insert(w)
+	}
 
 	return root
 }
