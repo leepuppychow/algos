@@ -18,4 +18,5 @@ func timeTestOneVar(fn func(a int) int, a int) {
 }
 
 func main() {
+
 }

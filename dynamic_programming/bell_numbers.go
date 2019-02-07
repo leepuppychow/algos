@@ -1,7 +1,3 @@
-package dp
-
-import "fmt"
-
 // https://www.geeksforgeeks.org/bell-numbers-number-of-ways-to-partition-a-set/
 
 // Bell number is the number of ways a set of (n) elements can be partitioned.
@@ -27,6 +23,10 @@ import "fmt"
 // 1. Set currentRow[0] = last item in previousRow
 // 2. Append to currentRow with currentRow[i-1]+previousRow[i-1]
 // 3. Break out of the recursion once the previousRow length == n (means we are on the currentRow we want)
+
+package dp
+
+import "fmt"
 
 func BellNumber(n int, previousRow []int) (int, []int) {
 	if len(previousRow) == n {
