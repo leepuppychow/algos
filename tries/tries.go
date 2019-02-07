@@ -35,13 +35,12 @@ func (n *Node) Search(word string) bool {
 	}
 }
 
-func (n *Node) Suggest(substring string) []string {
-	current := n
+func (current *Node) Suggest(substring string) []string {
 	for _, letter := range substring {
 		current = current.Children[letter]
-	}
-	if current == nil { // in case there are no matches to substring
-		return []string{}
+		if current == nil { // in case there are no matches to substring
+			return []string{}
+		}
 	}
 	words := []string{}
 	current.FindWords(substring, &words)

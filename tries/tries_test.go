@@ -72,3 +72,86 @@ func TestSearch(t *testing.T) {
 		t.Errorf("Search failed")
 	}
 }
+
+func TestSuggestRegular(t *testing.T) {
+	root := Setup()
+
+	words := root.Suggest("dra")
+	expected := map[string]bool{
+		"dragon":  true,
+		"dracula": true,
+		"drag":    true,
+	}
+	for _, word := range words {
+		if !expected[word] {
+			t.Errorf("Suggest failed")
+		}
+	}
+	if len(words) != 3 {
+		t.Errorf("Suggest failed")
+	}
+
+	words = root.Suggest("hear")
+	expected = map[string]bool{
+		"hear":    true,
+		"hearing": true,
+	}
+	for _, word := range words {
+		if !expected[word] {
+			t.Errorf("Suggest failed")
+		}
+	}
+	if len(words) != 2 {
+		t.Errorf("Suggest failed")
+	}
+
+	words = root.Suggest("h")
+	expected = map[string]bool{
+		"hello":   true,
+		"hall":    true,
+		"hear":    true,
+		"helmet":  true,
+		"hearing": true,
+		"hand":    true,
+		"hope":    true,
+	}
+	for _, word := range words {
+		if !expected[word] {
+			t.Errorf("Suggest failed")
+		}
+	}
+	if len(words) != 7 {
+		t.Errorf("Suggest failed")
+	}
+}
+
+func TestSuggestEdgeCases(t *testing.T) {
+	root := Setup()
+
+	words := root.Suggest("hearing")
+	expected := map[string]bool{
+		"hearing": true,
+	}
+	for _, word := range words {
+		if !expected[word] {
+			t.Errorf("Suggest failed")
+		}
+	}
+	if len(words) != 1 {
+		t.Errorf("Suggest failed")
+	}
+
+	words = root.Suggest("hearings")
+	if len(words) != 0 {
+		t.Errorf("Suggest failed")
+	}
+
+	words = root.Suggest("yo")
+	if len(words) != 0 {
+		t.Errorf("Suggest failed")
+	}
+	words = root.Suggest("")
+	if len(words) != 12 {
+		t.Errorf("Suggest failed")
+	}
+}

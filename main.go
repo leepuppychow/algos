@@ -41,5 +41,5 @@ func main() {
 	for _, w := range words {
 		root.Insert(w)
 	}
-	fmt.Println(root.Suggest("hear"))
+	fmt.Println(root.Suggest(""))
 }
