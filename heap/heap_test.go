@@ -118,7 +118,7 @@ func TestPopMin(t *testing.T) {
 	fmt.Println(h)
 
 	h.PopMin()
-	if h.Length() != 0  {
+	if h.Length() != 0 {
 		t.Errorf("PopMin function failed")
 	}
 	fmt.Println(h)
