@@ -1,4 +1,4 @@
-package singly
+package linked_list
 
 import (
 	"testing"

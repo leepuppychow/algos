@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/leepuppychow/algos/tries"
+	"github.com/leepuppychow/algos/arrays"
 )
 
 func timeTestTwoVars(fn func(a, b int) int, a, b int) {
@@ -20,26 +20,27 @@ func timeTestOneVar(fn func(a int) int, a int) {
 }
 
 func main() {
-	root := tries.Node{
-		Children: make(map[rune]*tries.Node),
-		IsWord:   false,
-	}
-	words := []string{
-		"hello",
-		"hall",
-		"hear",
-		"helmet",
-		"hearing",
-		"hand",
-		"hope",
-		"dog",
-		"dark",
-		"dragon",
-		"dracula",
-		"drag",
-	}
-	for _, w := range words {
-		root.Insert(w)
-	}
-	fmt.Println(root.Suggest(""))
+	fmt.Println("done", arrays.SingleNonDuplicate([]int{1, 1, 2, 3, 3, 4, 4, 8, 8}))
+	// root := tries.Node{
+	// 	Children: make(map[rune]*tries.Node),
+	// 	IsWord:   false,
+	// }
+	// words := []string{
+	// 	"hello",
+	// 	"hall",
+	// 	"hear",
+	// 	"helmet",
+	// 	"hearing",
+	// 	"hand",
+	// 	"hope",
+	// 	"dog",
+	// 	"dark",
+	// 	"dragon",
+	// 	"dracula",
+	// 	"drag",
+	// }
+	// for _, w := range words {
+	// 	root.Insert(w)
+	// }
+	// fmt.Println(root.Suggest(""))
 }

@@ -58,6 +58,16 @@ func (n *Node) FindWords(currentWord string, words *[]string) {
 
 // bufio.NewReader(os.Stdin).ReadBytes('\n')
 
+// If deleting a word that is not defined by a leaf node, then just toggle the IsWord to false,
+// If deleting a word that IS a leaf, then need to delete that key from the Children map 
+//	In Go, you can do:  delete(mapName, "key")
 func (n *Node) Delete(word string) { // make sure to prune tree as well
+
+}
+
+// A select function (weighting each substring and its top selected words)
+// Array from suggest should then be ordered by the top selected choices 
+
+func (n *Node) Select(substring, word string) {
 
 }
