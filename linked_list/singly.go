@@ -69,3 +69,19 @@ func ReverseList(head *Node) *Node { // Iterative
 	}
 	return past
 }
+
+func ReverseList2(current *Node) *Node { // Recursive
+	c, _ := ReverseRecursive(current, nil)
+	return c
+}
+
+func ReverseRecursive(current, past *Node) (*Node, *Node) {
+	if current == nil {
+		return past, nil
+	}
+
+	next := current.Child
+	current.Child = past
+
+	return ReverseRecursive(next, current)
+}
