@@ -1,5 +1,11 @@
 package tries
 
+import (
+	"bufio"
+	"fmt"
+	"os"
+)
+
 type Node struct {
 	Children map[rune]*Node
 	IsWord   bool
@@ -56,17 +62,28 @@ func (n *Node) FindWords(currentWord string, words *[]string) {
 	}
 }
 
-// bufio.NewReader(os.Stdin).ReadBytes('\n')
-
 // If deleting a word that is not defined by a leaf node, then just toggle the IsWord to false,
-// If deleting a word that IS a leaf, then need to delete that key from the Children map 
-//	In Go, you can do:  delete(mapName, "key")
-func (n *Node) Delete(word string) { // make sure to prune tree as well
+// If deleting a word that IS a leaf, then need to delete that key from the Children map
+func (n *Node) Delete(word string, previous *Node) { // make sure to prune tree as well
+	bufio.NewReader(os.Stdin).ReadBytes('\n')
+	fmt.Println(word, n, previous)
 
+	if len(word) == 0 {
+		if n.IsWord {
+			n.IsWord = false
+		}
+		if len(n.Children) == 0 {
+			fmt.Println("LEAF")
+			// need to prune at this point
+		}
+		return
+	}
+	letter := rune(word[0])
+	n.Children[letter].Delete(word[1:], n)
 }
 
 // A select function (weighting each substring and its top selected words)
-// Array from suggest should then be ordered by the top selected choices 
+// Array from suggest should then be ordered by the top selected choices
 
 func (n *Node) Select(substring, word string) {
 
