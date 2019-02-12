@@ -1,4 +1,4 @@
-package singly
+package linked_list
 
 import "fmt"
 
@@ -54,4 +54,34 @@ func (list *LinkedList) Contents() bool {
 	}
 	fmt.Println(current.Data)
 	return true
+}
+
+func ReverseList(head *Node) *Node { // Iterative
+	current := head
+	var past *Node = nil
+	var next *Node = nil
+
+	for current != nil {
+		next = current.Child
+		current.Child = past
+		past = current
+		current = next
+	}
+	return past
+}
+
+func ReverseList2(current *Node) *Node { // Recursive
+	c, _ := ReverseRecursive(current, nil)
+	return c
+}
+
+func ReverseRecursive(current, past *Node) (*Node, *Node) {
+	if current == nil {
+		return past, nil
+	}
+
+	next := current.Child
+	current.Child = past
+
+	return ReverseRecursive(next, current)
 }

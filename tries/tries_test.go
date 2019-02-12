@@ -155,3 +155,26 @@ func TestSuggestEdgeCases(t *testing.T) {
 		t.Errorf("Suggest failed")
 	}
 }
+
+func TestDeleteWordNonLeaf(t *testing.T) {
+	root := Setup()
+	if !root.Search("hear") {
+		t.Errorf("Delete Word failed")
+	}
+	root.Delete("hear", nil)
+	if root.Search("hear") {
+		t.Errorf("Delete Word failed")
+	}
+}
+
+// Should also prune any children nodes that are no longer needed
+func TestDeleteWordLeaf(t *testing.T) {
+	root := Setup()
+	if !root.Search("hearing") {
+		t.Errorf("Delete Word failed")
+	}
+	root.Delete("hearing", nil)
+	if root.Search("hearing") {
+		t.Errorf("Delete Word failed")
+	}
+}
