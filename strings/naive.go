@@ -24,6 +24,7 @@ func IncludesNaive(text, pattern string) []int {
 			for j, patternLetter := range pattern {
 				if patternLetter != rune(text[i+j]) {
 					match = false
+					break
 				}
 			}
 			if match {
