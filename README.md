@@ -2,7 +2,7 @@
 
 ### Resources used: 
 * https://www.geeksforgeeks.org/fundamentals-of-algorithms/
-* Some problems/algorithms were modified from hackerrank and leetcode
+* Some problems were adapted from hackerrank and leetcode
 
 
 
