@@ -10,8 +10,14 @@ package strings
 
 */
 
+// This would be ~O(n * m) with n = length of text and m = length of pattern
+
 func IncludesNaive(text, pattern string) []int {
 	matches := []int{}
+	if pattern == "" || text == "" {
+		return matches
+	}
+
 	for i, letter := range text {
 		if letter == rune(pattern[0]) {
 			match := true
