@@ -1,22 +1,22 @@
-package main
+package cache
 
 import "fmt"
 
-type LRUCache struct {
+type LRUCacheV1 struct {
 	Cache    map[int]int
-	Queue    []int  // Should use a different data structure (inserting into middle of array is getting costly)
+	Queue    []int // Should use a different data structure (inserting into middle of array is getting costly)
 	Capacity int
 }
 
-func Constructor(capacity int) LRUCache {
-	return LRUCache{
+func ConstructorV1(capacity int) LRUCacheV1 {
+	return LRUCacheV1{
 		Cache:    make(map[int]int),
 		Queue:    []int{},
 		Capacity: capacity,
 	}
 }
 
-func (this *LRUCache) Get(key int) int {
+func (this *LRUCacheV1) Get(key int) int {
 	fmt.Println("GET", key)
 
 	if value, ok := this.Cache[key]; ok {
@@ -39,7 +39,7 @@ func (this *LRUCache) Get(key int) int {
 	}
 }
 
-func (this *LRUCache) Set(key, value int) {
+func (this *LRUCacheV1) Set(key, value int) {
 	fmt.Println("SET", key, value)
 	_, dontDelete := this.Cache[key]
 	this.Cache[key] = value
@@ -52,35 +52,4 @@ func (this *LRUCache) Set(key, value int) {
 		this.Queue = this.Queue[:this.Capacity]
 	}
 	fmt.Println(this)
-}
-
-func main() {
-	lru := Constructor(10)
-	lru.Set(7, 28)
-	lru.Set(7, 1)
-	lru.Set(8, 15)
-	lru.Get(6)
-	lru.Set(10, 27)
-	lru.Set(8, 10)
-	lru.Get(8)
-	lru.Set(6, 29)
-	lru.Set(1, 9)
-	lru.Get(6)
-	lru.Set(10, 7)
-	lru.Get(1)
-	lru.Get(2)
-	lru.Get(13)
-	lru.Set(8, 30)
-	lru.Set(1, 5)
-	lru.Get(1)
-	lru.Set(13, 2)
-	lru.Get(12)
-
-	// lru := Constructor(2)
-	// lru.Set(2, 1)
-	// lru.Set(1, 1)
-	// lru.Set(2, 3)
-	// lru.Set(4, 1)
-	// lru.Get(1)
-	// lru.Get(2)
 }
