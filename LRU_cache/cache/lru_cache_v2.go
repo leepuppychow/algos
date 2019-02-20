@@ -5,11 +5,18 @@ import (
 	"strconv"
 )
 
+// have the cache store Nodes, that way lookup is O(1), do not need to traverse linked list
 type LRUCache struct {
 	Cache    map[int]Node
-	LruList  *Node // Use a doubly linked list here
+	LruList  *Node
 	Capacity int
 }
+
+// Use a doubly linked list here, maybe store the Tail too so delete can be faster?
+// type LRUList struct {
+// 	Head *Node
+// 	Tail *Node
+// }
 
 type Node struct {
 	Key      int
@@ -46,20 +53,31 @@ func (this *LRUCache) Get(key int) int {
 
 func (this *LRUCache) Set(key, value int) {
 	fmt.Println("SET", key, value)
-	newNode := Node{
-		Key:      key,
-		Value:    value,
-		Previous: nil,
-		Next:     nil,
+	currentNode, alreadyThere := this.Cache[key]
+
+	if alreadyThere {
+		currentNode.Value = value
+	} else {
+		currentNode = Node{
+			Key:      key,
+			Value:    value,
+			Previous: nil,
+			Next:     nil,
+		}
 	}
-	this.Cache[key] = newNode
+	this.Cache[key] = currentNode
 
 	// New key/value pair becomes head of doubly linked list
-	newNode.Next = this.LruList
-	this.LruList.Previous = &newNode
-	this.LruList = &newNode
+	currentNode.Next = this.LruList
+	this.LruList.Previous = &currentNode
+	this.LruList = &currentNode
+
+	if alreadyThere || len(this.Cache) > this.Capacity {
+		this.LruList.DeleteTail()
+	}
 
 	fmt.Println(this)
+	fmt.Println("LRU LIST:", this.LruList.PrintLruList(""))
 }
 
 func (this *Node) PrintLruList(result string) string {
@@ -68,4 +86,12 @@ func (this *Node) PrintLruList(result string) string {
 	}
 	result += strconv.Itoa(this.Key)
 	return this.Next.PrintLruList(result)
+}
+
+func (this *Node) DeleteTail() { // Find way to improve this --> O(n)
+	if this.Next == nil {
+		this.Previous.Next = nil
+		return
+	}
+	this.Next.DeleteTail()
 }
