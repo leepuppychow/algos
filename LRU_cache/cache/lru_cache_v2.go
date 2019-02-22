@@ -87,13 +87,23 @@ func (this *LRUCache) Set(key, value int) {
 }
 
 func (this *LRUCache) Get(key int) int {
-	node, inCache := this.Cache[key]
 	result := -1
+	existingNode, inCache := this.Cache[key]
 	if inCache {
-		result = node.Value
+		result = existingNode.Value
+		if existingNode == this.Head {
+			// do nothing
+		} else if existingNode == this.Tail {
+			this.NewHead(existingNode)
+			this.NewTail()
+		} else {
+			ConnectNeighbors(existingNode)
+			this.NewHead(existingNode)
+		}
 	}
 
 	fmt.Printf("GET %d; VALUE: %d\n", key, result)
+	this.PrintInfo()
 	return result
 }
 
@@ -107,8 +117,8 @@ func (this *Node) PrintList(result string) string {
 }
 
 func (this *LRUCache) PrintInfo() {
-	fmt.Println("CACHE", this.Cache)
-	fmt.Println("List head", this.Head)
-	fmt.Println("List tail", this.Tail)
-	fmt.Println("LRU LIST:", this.Head.PrintList(""))
+	fmt.Println("\tCACHE", this.Cache)
+	fmt.Println("\tList head", this.Head)
+	fmt.Println("\tList tail", this.Tail)
+	fmt.Println("\tLRU LIST:", this.Head.PrintList(""))
 }

@@ -36,4 +36,9 @@ func main() {
 	lru.Set(4, 400)
 	lru.Set(6, 600)
 	lru.Set(5, 500)
+
+	lru.Get(4)
+	lru.Get(5)
+	lru.Get(6)
+	lru.Get(1)
 }
