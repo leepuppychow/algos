@@ -29,6 +29,11 @@ func Constructor(capacity int) LRUCache {
 	}
 }
 
+func ConnectNeighbors(node *Node) {
+	node.Previous.Next = node.Next
+	node.Next.Previous = node.Previous
+}
+
 func (this *LRUCache) NewHead(node *Node) {
 	node.Next = this.Head
 	this.Head.Previous = node
@@ -40,9 +45,16 @@ func (this *LRUCache) NewTail() {
 	this.Tail = this.Tail.Previous
 }
 
-func ConnectNeighbors(node *Node) {
-	node.Previous.Next = node.Next
-	node.Next.Previous = node.Previous
+func (this *LRUCache) ReorderList(existingNode *Node) {
+	if existingNode == this.Head {
+		return // no need to re-arrange if the head is selected
+	} else if existingNode == this.Tail {
+		this.NewHead(existingNode)
+		this.NewTail()
+	} else { // We are somewhere in the middle of the linked list
+		ConnectNeighbors(existingNode)
+		this.NewHead(existingNode)
+	}
 }
 
 func (this *LRUCache) Set(key, value int) {
@@ -72,15 +84,7 @@ func (this *LRUCache) Set(key, value int) {
 	} else {
 		existingNode := this.Cache[key]
 		existingNode.Value = value
-		if existingNode == this.Head {
-			// do nothing, update value and leave linked list order the same
-		} else if existingNode == this.Tail {
-			this.NewHead(existingNode)
-			this.NewTail()
-		} else { // We are somewhere in the middle of the linked list
-			ConnectNeighbors(existingNode)
-			this.NewHead(existingNode)
-		}
+		this.ReorderList(existingNode)
 	}
 
 	this.PrintInfo()
@@ -91,15 +95,7 @@ func (this *LRUCache) Get(key int) int {
 	existingNode, inCache := this.Cache[key]
 	if inCache {
 		result = existingNode.Value
-		if existingNode == this.Head {
-			// do nothing
-		} else if existingNode == this.Tail {
-			this.NewHead(existingNode)
-			this.NewTail()
-		} else {
-			ConnectNeighbors(existingNode)
-			this.NewHead(existingNode)
-		}
+		this.ReorderList(existingNode)
 	}
 
 	fmt.Printf("GET %d; VALUE: %d\n", key, result)
