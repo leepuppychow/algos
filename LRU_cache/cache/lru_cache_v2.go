@@ -5,7 +5,8 @@ import (
 	"strconv"
 )
 
-// have the cache store Nodes, that way lookup is O(1), do not need to traverse linked list
+// Have the cache store Nodes, that way lookup is O(1), do not need to traverse linked list
+// Use a doubly linked list for tracking the LRU items - O(1) to insert if we know where node is
 type LRUCache struct {
 	Cache    map[int]*Node
 	Capacity int
