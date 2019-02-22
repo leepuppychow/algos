@@ -27,12 +27,11 @@ func main() {
 	// lru.Get(12)
 
 	lru := c.Constructor(3)
-	lru.Set(2, 20)
 	lru.Set(1, 10)
-	lru.Set(2, 200)
+	lru.Set(2, 20)
+	lru.Set(3, 30)
 	lru.Set(4, 40)
 	lru.Set(5, 50)
-	lru.Get(1)
-	lru.Get(2)
-	lru.Get(200)
+	lru.Set(6, 60)
+
 }
