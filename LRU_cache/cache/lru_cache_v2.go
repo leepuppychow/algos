@@ -7,7 +7,7 @@ import (
 
 // have the cache store Nodes, that way lookup is O(1), do not need to traverse linked list
 type LRUCache struct {
-	Cache    map[int]Node
+	Cache    map[int]*Node
 	Capacity int
 	Head     *Node
 	Tail     *Node
@@ -22,7 +22,7 @@ type Node struct {
 
 func Constructor(capacity int) LRUCache {
 	return LRUCache{
-		Cache:    make(map[int]Node),
+		Cache:    make(map[int]*Node),
 		Head:     nil,
 		Tail:     nil,
 		Capacity: capacity,
@@ -36,35 +36,51 @@ func (this *LRUCache) NewHead(node *Node) {
 }
 
 func (this *LRUCache) NewTail() {
-	oldTail := this.Tail
+	delete(this.Cache, this.Tail.Key)
 	this.Tail.Previous.Next = nil
 	this.Tail = this.Tail.Previous
-	delete(this.Cache, oldTail.Key)
-	oldTail.Previous = nil
+}
+
+func ConnectNeighbors(node *Node) {
+	node.Previous.Next = node.Next
+	node.Next.Previous = node.Previous
 }
 
 func (this *LRUCache) Set(key, value int) {
 	fmt.Println("SET", key, value)
 
 	_, inCache := this.Cache[key]
-	newNode := Node{
-		Key:      key,
-		Value:    value,
-		Previous: nil,
-		Next:     nil,
-	}
 	cacheSize := len(this.Cache)
-	if !inCache && cacheSize == 0 {
-		this.Cache[key] = newNode
-		this.Head = &newNode
-		this.Tail = &newNode
-	} else if !inCache && cacheSize < this.Capacity {
-		this.Cache[key] = newNode
-		this.NewHead(&newNode)
-	} else if !inCache && cacheSize == this.Capacity {
-		this.Cache[key] = newNode
-		this.NewHead(&newNode)
-		this.NewTail()
+
+	if !inCache {
+		newNode := Node{
+			Key:      key,
+			Value:    value,
+			Previous: nil,
+			Next:     nil,
+		}
+		this.Cache[key] = &newNode
+		if cacheSize == 0 {
+			this.Head = &newNode
+			this.Tail = &newNode
+		} else if cacheSize < this.Capacity {
+			this.NewHead(&newNode)
+		} else if cacheSize == this.Capacity {
+			this.NewHead(&newNode)
+			this.NewTail()
+		}
+	} else {
+		existingNode := this.Cache[key]
+		existingNode.Value = value
+		if existingNode == this.Head {
+			// do nothing, update value and leave linked list order the same
+		} else if existingNode == this.Tail {
+			this.NewHead(existingNode)
+			this.NewTail()
+		} else { // We are somewhere in the middle of the linked list
+			ConnectNeighbors(existingNode)
+			this.NewHead(existingNode)
+		}
 	}
 
 	this.PrintInfo()
