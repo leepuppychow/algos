@@ -35,6 +35,5 @@ func main() {
 	lru.Set(6, 60)
 	lru.Set(4, 400)
 	lru.Set(6, 600)
-	lru.Set(6, 600000)
-
+	lru.Set(5, 500)
 }

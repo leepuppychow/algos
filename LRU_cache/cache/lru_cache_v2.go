@@ -36,7 +36,6 @@ func (this *LRUCache) NewHead(node *Node) {
 }
 
 func (this *LRUCache) NewTail() {
-	delete(this.Cache, this.Tail.Key)
 	this.Tail.Previous.Next = nil
 	this.Tail = this.Tail.Previous
 }
@@ -67,6 +66,7 @@ func (this *LRUCache) Set(key, value int) {
 			this.NewHead(&newNode)
 		} else if cacheSize == this.Capacity {
 			this.NewHead(&newNode)
+			delete(this.Cache, this.Tail.Key)
 			this.NewTail()
 		}
 	} else {
@@ -87,9 +87,14 @@ func (this *LRUCache) Set(key, value int) {
 }
 
 func (this *LRUCache) Get(key int) int {
-	fmt.Println("GET", key)
+	node, inCache := this.Cache[key]
+	result := -1
+	if inCache {
+		result = node.Value
+	}
 
-	return 1000
+	fmt.Printf("GET %d; VALUE: %d\n", key, result)
+	return result
 }
 
 // Helper functions for debugging purposes
