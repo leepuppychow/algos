@@ -3,7 +3,7 @@ package linked_list
 // Add two numbers. Each num is represented in REVERSE order as a linked list
 // Return linked list as the solution
 
-// WORKS, but should refactor (iterative solution is probably more elegant too)
+// WORKS, but should refactor (iterative solution is probably more elegant)
 
 type ListNode struct {
 	Val  int
