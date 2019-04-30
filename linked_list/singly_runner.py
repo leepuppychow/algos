@@ -1,18 +1,17 @@
-from singly import Node
+from singly import Node, SinglyLinkedList
 
-node1 = Node('node1', None)
-node2 = Node('node2', None)
-node3 = Node('node3', None)
-node4 = Node('node4', None)
-node5 = Node('node5', None)
-node6 = Node('node6', None)
+list1 = SinglyLinkedList()
+list1.insert(1)
+list1.insert(2)
+list1.insert(3)
+list1.insert(4)
+list1.insert(5)
 
-node1.insert(node2)
-node2.insert(node3)
-node3.append(node4)
-node3.append(node5)
-node3.append(node6)
+list1.append(6)
 
-node3.delete('node1')
+list1.delete(5)
+list1.delete(1)
 
-node3.print_list()
+list1.print_list()
+list1.reverse()
+list1.print_list()

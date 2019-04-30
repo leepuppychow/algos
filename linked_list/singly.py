@@ -1,46 +1,61 @@
 class Node:
-  def __init__(self, data, child):
+  def __init__(self, data):
     self.data = data
-    self.child = child
+    self.child = None
 
-  def insert(self, new_node):
-    new_node.child = self
-    return new_node
+class SinglyLinkedList:
+  def __init__(self):
+    self.head = None
 
-  def append(self, new_node):
-    if self.child == None:
-      self.child = new_node
-    else:
-      self.child.append(new_node)
+  def insert(self, data):
+    new_node = Node(data)
+    new_node.child = self.head
+    self.head = new_node
+
+  def append(self, data):
+    current = self.head
+    while current.child is not None:
+      current = current.child
+    current.child = Node(data)
 
   def includes(self, data):
-    if self.data == data:
-      return True
-    elif self.child == None and self.data != data:
-      return False
-    else:
-      return self.child.includes(data)
+    current = self.head
+    while current.data != data:
+      if current.child is None:
+        return False
+      current = current.child
+    return True
 
   def delete(self, data):
-    if self.data == data:
-      new_head = self.child
-      self.child = None
-      return new_head
-    elif self.child == None:
-      print(data, "not found")
+    current = self.head
+    if current.data == data:
+      head = current
+      self.head = current.child
+      head.child = None
       return
-    elif self.child.data == data:
-      to_be_deleted = self.child
-      self.child = self.child.child
-      to_be_deleted.child = None
-      return
-    else:
-      return self.child.delete(data)
+    while current.child is not None:
+      if current.child.data == data:
+        to_be_deleted = current.child
+        current.child = current.child.child
+        to_be_deleted.child = None
+        return
+      else: 
+        current = current.child
+    print(data, "not found")
   
+  def reverse(self):
+    prev = None
+    current = self.head
+
+    while current != None:
+      next = current.child
+      current.child = prev
+      prev = current
+      current = next
+    self.head = prev
+    
   def print_list(self):
-    if self.child == None:
-      print(self.data)
-      return
-    else:
-      print(self.data)
-      self.child.print_list()
+    current = self.head
+    while current is not None:
+      print(current.data)
+      current = current.child
