@@ -1,8 +1,10 @@
 package binary_search_tree
 
+import "log"
+
 type Node struct {
-	Data int
-	Left *Node
+	Data  int
+	Left  *Node
 	Right *Node
 }
 
@@ -10,28 +12,44 @@ type BST struct {
 	Root *Node
 }
 
-func Insert(data int, node *Node) {
+func (tree *BST) Insert(data int, node *Node) {
 	if data < node.Data {
 		if node.Left == nil {
 			node.Left = &Node{
-				Data: data,
-				Left: nil,
+				Data:  data,
+				Left:  nil,
 				Right: nil,
 			}
 			return
 		} else {
-			Insert(data, node.Left)
+			tree.Insert(data, node.Left)
 		}
 	} else {
 		if node.Right == nil {
 			node.Right = &Node{
-				Data: data,
-				Left: nil,
+				Data:  data,
+				Left:  nil,
 				Right: nil,
 			}
 			return
 		} else {
-			Insert(data, node.Right)
+			tree.Insert(data, node.Right)
 		}
+	}
+}
+
+func (tree *BST) Search(data int, current *Node) bool {
+	log.Println(current)
+
+	if current.Data == data {
+		return true
+	} else if current.Left == nil && current.Right == nil {
+		return false
+	}
+
+	if data < current.Data {
+		return tree.Search(data, current.Left)
+	} else {
+		return tree.Search(data, current.Right)
 	}
 }

@@ -10,18 +10,20 @@ func Setup() BST {
 		Left:  nil,
 		Right: nil,
 	}
-	return BST{
+	tree := BST{
 		Root: &root,
 	}
+	tree.Insert(40, tree.Root)
+	tree.Insert(60, tree.Root)
+	tree.Insert(45, tree.Root)
+	tree.Insert(65, tree.Root)
+	tree.Insert(20, tree.Root)
+
+	return tree
 }
 
 func TestInsert(t *testing.T) {
 	tree := Setup()
-	Insert(40, tree.Root)
-	Insert(60, tree.Root)
-	Insert(45, tree.Root)
-	Insert(65, tree.Root)
-	Insert(20, tree.Root)
 
 	if tree.Root.Data != 50 {
 		t.Errorf("Insert failed, root should be 50, got: %d", tree.Root.Data)
@@ -43,5 +45,25 @@ func TestInsert(t *testing.T) {
 	}
 	if tree.Root.Right.Left != nil {
 		t.Errorf("Insert failed")
+	}
+}
+
+func TestSearch(t *testing.T) {
+	tree := Setup()
+
+	if tree.Search(50, tree.Root) != true {
+		t.Errorf("Search failed")
+	}
+	if tree.Search(20, tree.Root) != true {
+		t.Errorf("Search failed")
+	}
+	if tree.Search(65, tree.Root) != true {
+		t.Errorf("Search failed")
+	}
+	if tree.Search(45, tree.Root) != true {
+		t.Errorf("Search failed")
+	}
+	if tree.Search(100, tree.Root) != false {
+		t.Errorf("Search failed")
 	}
 }
