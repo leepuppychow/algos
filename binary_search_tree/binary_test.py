@@ -20,6 +20,17 @@ class TestBinarySearchTree(unittest.TestCase):
     self.assertEqual(self.tree.root.right.data, 60)
     self.assertEqual(self.tree.root.right.right.data, 65)
     self.assertEqual(self.tree.root.right.left, None)
+
+  def test_search(self):
+    self.assertTrue(self.tree.search(50))
+    self.assertTrue(self.tree.search(40))
+    self.assertTrue(self.tree.search(60))
+    self.assertTrue(self.tree.search(45))
+    self.assertTrue(self.tree.search(65))
+    self.assertTrue(self.tree.search(20))
+
+    self.assertFalse(self.tree.search(100))
+    self.assertFalse(self.tree.search(0))
   
 if __name__ == '__main__':
     unittest.main()

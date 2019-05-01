@@ -22,4 +22,15 @@ class BinarySearchTree:
       else: 
         self.insert(data, current.right)
 
+  def search(self, data):
+    current = self.root
+    while current.data != data:
+      if current.left is None and current.right is None:
+        return False
+      elif data < current.data:
+        current = current.left
+      elif data > current.data:
+        current = current.right
+    return True
+
     
