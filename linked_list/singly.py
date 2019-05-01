@@ -41,7 +41,8 @@ class SinglyLinkedList:
         return
       else: 
         current = current.child
-    print(data, "not found")
+    return "not found"
+
   
   def reverse(self):
     prev = None
