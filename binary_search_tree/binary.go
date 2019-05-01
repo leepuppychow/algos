@@ -10,7 +10,7 @@ type BST struct {
 	Root *Node
 }
 
-func (tree *BST) Insert(data int, node *Node) {
+func Insert(data int, node *Node) {
 	if data < node.Data {
 		if node.Left == nil {
 			node.Left = &Node{
@@ -20,7 +20,7 @@ func (tree *BST) Insert(data int, node *Node) {
 			}
 			return
 		} else {
-			tree.Insert(data, node.Left)
+			Insert(data, node.Left)
 		}
 	} else {
 		if node.Right == nil {
@@ -31,12 +31,12 @@ func (tree *BST) Insert(data int, node *Node) {
 			}
 			return
 		} else {
-			tree.Insert(data, node.Right)
+			Insert(data, node.Right)
 		}
 	}
 }
 
-func (tree *BST) Search(data int, current *Node) bool {
+func Search(data int, current *Node) bool {
 	if current.Data == data {
 		return true
 	} else if current.Left == nil && current.Right == nil {
@@ -44,9 +44,9 @@ func (tree *BST) Search(data int, current *Node) bool {
 	}
 
 	if data < current.Data {
-		return tree.Search(data, current.Left)
+		return Search(data, current.Left)
 	} else {
-		return tree.Search(data, current.Right)
+		return Search(data, current.Right)
 	}
 }
 
