@@ -1,7 +1,5 @@
 package binary_search_tree
 
-import "log"
-
 type Node struct {
 	Data  int
 	Left  *Node
@@ -39,8 +37,6 @@ func (tree *BST) Insert(data int, node *Node) {
 }
 
 func (tree *BST) Search(data int, current *Node) bool {
-	log.Println(current)
-
 	if current.Data == data {
 		return true
 	} else if current.Left == nil && current.Right == nil {
@@ -52,4 +48,8 @@ func (tree *BST) Search(data int, current *Node) bool {
 	} else {
 		return tree.Search(data, current.Right)
 	}
+}
+
+func (tree *BST) Delete() {
+	
 }

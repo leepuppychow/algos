@@ -67,3 +67,7 @@ func TestSearch(t *testing.T) {
 		t.Errorf("Search failed")
 	}
 }
+
+func TestDelete(t *testing.T) {
+
+}
