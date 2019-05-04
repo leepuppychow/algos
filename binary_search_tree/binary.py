@@ -32,8 +32,3 @@ class BinarySearchTree:
       elif data > current.data:
         current = current.right
     return True
-  
-  def delete(self):
-    return
-
-    

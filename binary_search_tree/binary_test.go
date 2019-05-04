@@ -11,7 +11,8 @@ func Setup() BST {
 		Right: nil,
 	}
 	tree := BST{
-		Root: &root,
+		Root:   &root,
+		Output: "",
 	}
 	Insert(40, tree.Root)
 	Insert(60, tree.Root)
@@ -51,23 +52,92 @@ func TestInsert(t *testing.T) {
 func TestSearch(t *testing.T) {
 	tree := Setup()
 
-	if Search(50, tree.Root) != true {
+	if found, _, _ := Search(50, tree.Root, nil); found != true {
 		t.Errorf("Search failed")
 	}
-	if Search(20, tree.Root) != true {
+	if found, _, _ := Search(20, tree.Root, nil); found != true {
 		t.Errorf("Search failed")
 	}
-	if Search(65, tree.Root) != true {
+	if found, _, _ := Search(65, tree.Root, nil); found != true {
 		t.Errorf("Search failed")
 	}
-	if Search(45, tree.Root) != true {
+	if found, _, _ := Search(45, tree.Root, nil); found != true {
 		t.Errorf("Search failed")
 	}
-	if Search(100, tree.Root) != false {
+	if found, _, _ := Search(100, tree.Root, nil); found != false {
 		t.Errorf("Search failed")
 	}
 }
 
 func TestDelete(t *testing.T) {
+	// Case 1: delete a node that has no children (here just assign it to nil)
+	tree := Setup()
+	Insert(15, tree.Root)
 
+	deleted := Delete(15, tree.Root)
+	newSubRoot := tree.Root.Left.Left.Left
+	if deleted != true && newSubRoot != nil {
+		t.Errorf("Case 1: Deletion of node 15 failed")
+	}
+	if found, _, _ := Search(15, tree.Root, nil); found != false {
+		t.Errorf("Case 1: Deletion of node 15 failed")
+	}
+
+	// Case 2a: delete a node with a R child, and no L child (here R child should become new sub-root)
+	tree = Setup()
+	Insert(15, tree.Root)
+	Insert(18, tree.Root)
+
+	deleted = Delete(15, tree.Root)
+	newSubRoot = tree.Root.Left.Left.Left
+	if deleted != true && newSubRoot.Data != 18 {
+		t.Errorf("Case 2a: Deletion of node 15 failed")
+	}
+	if newSubRoot.Right != nil && newSubRoot.Left != nil {
+		t.Errorf("Case 2a: Deletion of node 15 failed")
+	}
+	if found, _, _ := Search(15, tree.Root, nil); found != false {
+		t.Errorf("Case 2a: Deletion of node 15 failed")
+	}
+
+	// Case 2b: delete a node with a R child and L child (here R child should become new sub-root)
+	tree = Setup()
+	Insert(15, tree.Root)
+	Insert(18, tree.Root)
+	Insert(10, tree.Root)
+
+	deleted = Delete(15, tree.Root)
+	newSubRoot = tree.Root.Left.Left.Left
+	if deleted != true && newSubRoot.Data != 18 {
+		t.Errorf("Case 2b: Deletion of node 15 failed")
+	}
+	if newSubRoot.Right != nil && newSubRoot.Left.Data != 10 {
+		t.Errorf("Case 2b: Deletion of node 15 failed")
+	}
+	if found, _, _ := Search(15, tree.Root, nil); found != false {
+		t.Errorf("Case 2b: Deletion of node 15 failed")
+	}
+	if found, _, _ := Search(18, tree.Root, nil); found != true {
+		t.Errorf("Case 2b: Deletion of node 15 failed")
+	}
+	if found, _, _ := Search(10, tree.Root, nil); found != true {
+		t.Errorf("Case 2b: Deletion of node 15 failed")
+	}
+
+	// Case 3: delete a node with only a L child (here L child should become new sub-root)
+	tree = Setup()
+	Insert(15, tree.Root)
+	Insert(10, tree.Root)
+
+	deleted = Delete(15, tree.Root)
+	newSubRoot = tree.Root.Left.Left.Left
+	if deleted != true && newSubRoot.Data != 10 {
+		t.Errorf("Case 3: Deletion of node 15 failed")
+	}
+	if newSubRoot.Right != nil && newSubRoot.Left != nil {
+		t.Errorf("Case 3: Deletion of node 15 failed")
+	}
+	if found, _, _ := Search(15, tree.Root, nil); found != false {
+		t.Errorf("Case 3: Deletion of node 15 failed")
+	}
 }
