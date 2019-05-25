@@ -52,20 +52,21 @@ func TestInsert(t *testing.T) {
 func TestSearch(t *testing.T) {
 	tree := Setup()
 
-	if found, _, _ := Search(50, tree.Root, nil); found != true {
-		t.Errorf("Search failed")
+	tests := []struct {
+		input    int
+		expected bool
+	}{
+		{50, true},
+		{20, true},
+		{65, true},
+		{45, true},
+		{100, false},
 	}
-	if found, _, _ := Search(20, tree.Root, nil); found != true {
-		t.Errorf("Search failed")
-	}
-	if found, _, _ := Search(65, tree.Root, nil); found != true {
-		t.Errorf("Search failed")
-	}
-	if found, _, _ := Search(45, tree.Root, nil); found != true {
-		t.Errorf("Search failed")
-	}
-	if found, _, _ := Search(100, tree.Root, nil); found != false {
-		t.Errorf("Search failed")
+
+	for _, test := range tests {
+		if found, _, _ := Search(test.input, tree.Root, nil); found != test.expected {
+			t.Errorf("Search failed")
+		}
 	}
 }
 

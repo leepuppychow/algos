@@ -11,6 +11,15 @@ type LinkedList struct {
 	Head *Node
 }
 
+func (list *LinkedList) Insert(number int) LinkedList {
+	newNode := Node{
+		Data:  number,
+		Child: list.Head,
+	}
+	list.Head = &newNode
+	return *list
+}
+
 func (list *LinkedList) Search(current *Node, number int) bool {
 	if current.Data == number {
 		return true

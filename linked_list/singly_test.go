@@ -25,6 +25,23 @@ func Setup() LinkedList {
 	return list
 }
 
+func TestInsert(t *testing.T) {
+	list := Setup()
+	length := list.Length()
+	tests := []int{10, 11, 12, 13, 14, 100, 101}
+
+	for _, test := range tests {
+		list.Insert(test)
+		if list.Head.Data != test {
+			t.Errorf("Insert test failed")
+		}
+		if list.Length() != length+1 {
+			t.Errorf("Insert test failed")
+		}
+		length++
+	}
+}
+
 func TestLength(t *testing.T) {
 	list := Setup()
 	if list.Length() != 4 {
